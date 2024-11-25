@@ -7,6 +7,8 @@ const app = express();
 const port = 4000;
 const http = require("http");
 const fetch = require("node-fetch"); // Required for sending push notifications
+require("dotenv").config();
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -15,8 +17,7 @@ const jwt = require("jsonwebtoken");
 
 mongoose
   .connect(
-    // "mongodb+srv://jayrajsinghjs54:12345@cluster0.3qdap.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-    "mongodb+srv://jayrajsinghjs54:12345@cluster0.qr1vp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    process.env.MONGO_URI
   )
   .then(() => {
     console.log("MongoDb connected");
@@ -34,8 +35,8 @@ const Conversation = require("./models/conversations.js")
 const User = require("./models/user.js");
 
 // OneSignal Configuration
-const ONE_SIGNAL_APP_ID = "8825d2e5-bdbc-4d71-954d-d24ed8850cc4";
-const ONE_SIGNAL_REST_API_KEY = "MzkwODI0MWUtY2ZjOC00ODZjLTg4NDItMjczNGYxMTAwMWM4";
+const ONE_SIGNAL_APP_ID = process.env.ONE_SIGNAL_APP_ID;
+const ONE_SIGNAL_REST_API_KEY = process.env.ONE_SIGNAL_REST_API_KEY;
 
 // Function to send push notification
 const sendPushNotification = async (userId, messageContent) => {
@@ -97,9 +98,9 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Invalid password" });
     }
 
-    const secretKey = "Q$r2K6W8n!jCW%Zk";
 
-    const token = jwt.sign({ userId: user._id }, secretKey);
+
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY);
 
     res.status(200).json({ token });
   } catch (error) {
