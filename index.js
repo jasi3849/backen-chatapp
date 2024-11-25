@@ -9,7 +9,11 @@ const http = require("http");
 const fetch = require("node-fetch"); // Required for sending push notifications
 require("dotenv").config();
 
-app.use(cors());
+app.use(cors({
+  origin: '*',  // Allow all origins
+  credentials: true,  // Allow cookies and credentials to be sent
+}));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
