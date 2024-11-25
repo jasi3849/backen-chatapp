@@ -19,6 +19,10 @@ app.use(cors({
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+  console.log("Incoming request from:", req.headers.origin);
+  next();
+});
 
 const jwt = require("jsonwebtoken");
 
@@ -94,6 +98,7 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   try {
+    console.log("Login request body:", req.body);
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
