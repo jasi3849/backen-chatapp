@@ -9,18 +9,12 @@ const http = require("http");
 const fetch = require("node-fetch"); // Required for sending push notifications
 require("dotenv").config();
 
-// app.use(cors({
-//   origin: '*',  // Allow all origins
-//   credentials: true,  // Allow cookies and credentials to be sent
-// }));
+app.use(cors({
+  origin: '*',  // Allow all origins
+  credentials: true,  // Allow cookies and credentials to be sent
+}));
 
-const corsOptions = {
-  origin: 'exp://192.168.1.12:8081', // Expo Go app local URL
-  methods: 'GET,POST',
-  allowedHeaders: 'Content-Type,Authorization',
-};
 
-app.use(cors(corsOptions)); // Use this for better CORS control
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
